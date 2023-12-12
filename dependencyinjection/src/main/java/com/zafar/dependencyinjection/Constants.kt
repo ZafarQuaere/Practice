@@ -1,3 +1,3 @@
 package com.zafar.dependencyinjection
 
- val TAG: String = "DI >> "
+ const val TAG: String = "DI >> "

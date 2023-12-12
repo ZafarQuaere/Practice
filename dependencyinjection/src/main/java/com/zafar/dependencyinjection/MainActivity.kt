@@ -10,6 +10,10 @@ class MainActivity : FragmentActivity() {
 
     @Inject
     lateinit var userRegistrationService: UserRegistrationService
+
+    @Inject
+    lateinit var emailService: EmailService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,7 +24,12 @@ class MainActivity : FragmentActivity() {
 //        val userRegistrationService = UserRegistrationService(userRepository, emailService)]
 
         // This is how we get the UserRegistrationService dependency using Dagger
-        val component = DaggerUserRegistrationComponent.builder().build()
+//        val component = DaggerUserRegistrationComponent.builder()
+//            .notificationServiceModule(NotificationServiceModule(3))
+//            .build()
+
+        val component = DaggerUserRegistrationComponent.factory().create(3)
+
         component.inject(this)
 //        val userRegistrationService = component.getUserRegistrationService()
 //        val emailService = component.getEmailService()

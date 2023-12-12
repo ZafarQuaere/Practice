@@ -5,7 +5,7 @@ import dagger.Provides
 import javax.inject.Named
 
 @Module
-class NotificationServiceModule {
+class NotificationServiceModule() {
 
     @Provides
     fun getEmailService(emailService: EmailService): NotificationService {
