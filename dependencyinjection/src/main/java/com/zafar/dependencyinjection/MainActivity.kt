@@ -14,6 +14,9 @@ class MainActivity : FragmentActivity() {
     @Inject
     lateinit var emailService: EmailService
 
+    @Inject
+    lateinit var emailService1: EmailService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,7 +31,8 @@ class MainActivity : FragmentActivity() {
 //            .notificationServiceModule(NotificationServiceModule(3))
 //            .build()
 
-        val component = DaggerUserRegistrationComponent.factory().create(3)
+//        val component = DaggerUserRegistrationComponent.factory().create(3)
+        val component =  (application as UserApplication).component
 
         component.inject(this)
 //        val userRegistrationService = component.getUserRegistrationService()
