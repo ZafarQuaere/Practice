@@ -17,3 +17,4 @@ rootProject.name = "Learning"
 include(":app")
 include(":javapractice")
 include(":kotlinpractice")
+include(":dependencyinjection")
