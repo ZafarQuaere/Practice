@@ -4,9 +4,9 @@ import android.app.Application
 
 class UserApplication: Application() {
 
-    lateinit var component: UserRegistrationComponent
+    lateinit var component: AppLevelComponent
     override fun onCreate() {
         super.onCreate()
-        component = DaggerUserRegistrationComponent.factory().create(3)
+        component = DaggerAppLevelComponent.builder().build()
     }
 }

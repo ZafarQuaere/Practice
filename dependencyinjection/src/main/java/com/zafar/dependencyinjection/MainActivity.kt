@@ -31,10 +31,11 @@ class MainActivity : FragmentActivity() {
 //            .notificationServiceModule(NotificationServiceModule(3))
 //            .build()
 
-//        val component = DaggerUserRegistrationComponent.factory().create(3)
-        val component =  (application as UserApplication).component
+        val appComponent = (application as UserApplication).component
 
-        component.inject(this)
+        val userRegistrationComponent = DaggerUserRegistrationComponent.factory().create(3,appComponent)
+
+        .inject(this)
 //        val userRegistrationService = component.getUserRegistrationService()
 //        val emailService = component.getEmailService()
 

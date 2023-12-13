@@ -2,10 +2,9 @@ package com.zafar.dependencyinjection
 
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Singleton
 
-@ApplicationScope
-@Component(modules = [UserRepositoryModule::class, NotificationServiceModule::class])
+@ActivityScope
+@Component(dependencies = [AppLevelComponent::class], modules = [UserRepositoryModule::class, NotificationServiceModule::class])
 interface UserRegistrationComponent {
 
 //    fun getUserRegistrationService(): UserRegistrationService
@@ -16,6 +15,6 @@ interface UserRegistrationComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance retryCount: Int): UserRegistrationComponent
+        fun create(@BindsInstance retryCount: Int, appLevelComponent: AppLevelComponent): UserRegistrationComponent
     }
 }
