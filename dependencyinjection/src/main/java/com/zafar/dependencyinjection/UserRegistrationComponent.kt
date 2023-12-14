@@ -2,19 +2,29 @@ package com.zafar.dependencyinjection
 
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Subcomponent
 
 @ActivityScope
-@Component(dependencies = [AppLevelComponent::class], modules = [UserRepositoryModule::class, NotificationServiceModule::class])
+@Subcomponent( modules = [UserRepositoryModule::class, NotificationServiceModule::class])
 interface UserRegistrationComponent {
 
 //    fun getUserRegistrationService(): UserRegistrationService
 //
 //    fun getEmailService(): EmailService
 
+
+    // by creating builder
+    @Subcomponent.Builder
+    interface Builder {
+        fun retryCount(@BindsInstance retryCount: Int): Builder
+        fun build(): UserRegistrationComponent
+    }
+
+
     fun inject(activity: MainActivity)
 
-    @Component.Factory
+  /*  @Subcomponent.Factory
     interface Factory {
-        fun create(@BindsInstance retryCount: Int, appLevelComponent: AppLevelComponent): UserRegistrationComponent
-    }
+        fun create(@BindsInstance retryCount: Int): UserRegistrationComponent
+    }*/
 }

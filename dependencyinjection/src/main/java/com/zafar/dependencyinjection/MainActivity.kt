@@ -21,11 +21,6 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Below is the manual way to add dependency
-//        val userRepository = UserRepository()
-//        val emailService = EmailService()
-//        val userRegistrationService = UserRegistrationService(userRepository, emailService)]
-
         // This is how we get the UserRegistrationService dependency using Dagger
 //        val component = DaggerUserRegistrationComponent.builder()
 //            .notificationServiceModule(NotificationServiceModule(3))
@@ -33,11 +28,11 @@ class MainActivity : FragmentActivity() {
 
         val appComponent = (application as UserApplication).component
 
-        val userRegistrationComponent = DaggerUserRegistrationComponent.factory().create(3,appComponent)
+//        val userRegistrationComponent = appComponent.getUserRegistrationComponentFactory().create(3)
+        val userRegistrationComponent = appComponent.getUserRegistrationComponentBuilder().retryCount(3).build()
 
-        .inject(this)
-//        val userRegistrationService = component.getUserRegistrationService()
-//        val emailService = component.getEmailService()
+        userRegistrationComponent.inject(this)
+
 
         userRegistrationService.registerUser("abc@gail.com", "password")
 
