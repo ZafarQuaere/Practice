@@ -1,46 +1,69 @@
 package com.zafar.learning
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.zafar.learning.ui.theme.LearningTheme
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            LearningTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+        setContentView(R.layout.activitty_main)
+
+        findViewById<Button>(R.id.btnRun).setOnClickListener {
+            MyIntentService.startActionFoo(this, "param1 >>> ", "param2 >>>")
+            MyIntentService.startActionBaz(this, "param1 ### ", "param2 ### ")
+        }
+
+        GlobalScope.launch(Dispatchers.Main) {
+//            val result = producer()
+            val result = producer1()
+            result.collect {
+                    println("Practice1: item >> $it")
                 }
-            }
+        }
+
+        GlobalScope.launch(Dispatchers.Main) {
+//            val result = producer()
+            val result = producer1()
+            delay(2500)
+            result.collect {
+                    println("Practice2: item >> $it")
+                }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+//mutable shared flow (Hot flow)
+private fun producer1(): Flow<Int>  {
+    val mutableSharedFlow = MutableSharedFlow<Int>()
+    val list = listOf<Int>(1,2,3,4,5,6)
+    GlobalScope.launch {
+        list.forEach {
+            mutableSharedFlow.emit(it)
+            delay(1000)
+        }
+    }
+    return mutableSharedFlow
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LearningTheme {
-        Greeting("Android")
+//flow (cold flow)
+private fun producer(): Flow<Int> = flow {
+    val list = listOf<Int>(1,2,3,4,5,6)
+    list.forEach {
+        delay(1000)
+        emit(it)
     }
 }
