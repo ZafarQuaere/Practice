@@ -62,7 +62,8 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
-
+    //work manager
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
